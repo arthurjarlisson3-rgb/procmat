@@ -1,0 +1,483 @@
+/* ===== RESET & BASE ===== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: green;
+  color: black;
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* ===== LAYOUT ===== */
+.eco-wrap {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 3rem;
+}
+
+/* ===== HEADER ===== */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1.75rem;
+}
+
+.logo-img {
+  height: 64px;
+  width: auto;
+  border-radius: 8px;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+  background: transparent;
+}
+
+.app-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: black;
+}
+
+.app-sub {
+  font-size: 13px;
+  color: rgb(27, 26, 26);
+}
+
+/* ===== TABS ===== */
+.tabs {
+  display: flex;
+  gap: 4px;
+  background: lightgray;
+  border-radius: 12px;
+  padding: 4px;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.tab {
+  flex: 1;
+  min-width: 90px;
+  padding: 8px 6px;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  color: dimgray;
+  font-weight: 400;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+
+.tab.active {
+  background: white;
+  color: black;
+  font-weight: 600;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+.tab:hover:not(.active) {
+  background: rgba(255,255,255,0.6);
+}
+
+/* ===== SECTIONS ===== */
+.section {
+  display: none;
+}
+
+.section.active {
+  display: block;
+}
+
+/* ===== CARDS ===== */
+.card {
+  background: white;
+  border: 1px solid darkseagreen;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 12px;
+}
+
+/* ===== TYPOGRAPHY ===== */
+.section-head {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: black;
+}
+
+.section-sub {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 1.25rem 0 0.5rem;
+  color: black;
+}
+
+.muted {
+  color: gray;
+  font-size: 13px;
+}
+
+.center {
+  text-align: center;
+  padding: 0.5rem 0;
+}
+
+/* ===== FORMS ===== */
+.form-row {
+  margin-bottom: 12px;
+}
+
+label {
+  font-size: 13px;
+  color: dimgray;
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+input,
+select {
+  width: 100%;
+  font-size: 14px;
+  padding: 9px 12px;
+  border: 1px solid darkseagreen;
+  border-radius: 8px;
+  background: white;
+  color: black;
+  outline: none;
+  transition: border-color 0.15s;
+  font-family: inherit;
+}
+
+input:focus,
+select:focus {
+  border-color: olivedrab;
+  box-shadow: 0 0 0 3px rgba(99,153,34,0.12);
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+  padding: 9px 16px;
+  border: 1px solid darkseagreen;
+  border-radius: 8px;
+  background: white;
+  color: black;
+  font-size: 13px;
+  cursor: pointer;
+  font-weight: 500;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+
+.btn:hover {
+  background: honeydew;
+}
+
+.btn-primary {
+  background: darkgreen;
+  color: honeydew;
+  border-color: darkgreen;
+}
+
+.btn-primary:hover {
+  background: forestgreen;
+  border-color: forestgreen;
+}
+
+.btn-danger {
+  background: white;
+  color: firebrick;
+  border-color: lightcoral;
+}
+
+.btn-danger:hover {
+  background: mistyrose;
+  border-color: firebrick;
+}
+
+.full-width {
+  width: 100%;
+  margin-top: 8px;
+}
+
+/* ===== GRIDS ===== */
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.grid3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 600px) {
+  .grid2, .grid3 {
+    grid-template-columns: 1fr;
+  }
+  .tabs {
+    gap: 2px;
+  }
+  .tab {
+    font-size: 11px;
+    padding: 7px 4px;
+  }
+}
+
+/* ===== FLEET TABLE ===== */
+.fleet-table {
+  width: 100%;
+  font-size: 13px;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.fleet-table th {
+  text-align: left;
+  font-weight: 600;
+  color: dimgray;
+  padding: 6px 0;
+  border-bottom: 1px solid lightgreen;
+}
+
+.fleet-table td {
+  padding: 8px 0;
+  border-bottom: 1px solid lightgreen;
+  color: black;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fleet-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* ===== RESULT BOXES ===== */
+.result-box {
+  background: honeydew;
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+}
+
+.result-label {
+  font-size: 12px;
+  color: gray;
+  margin-bottom: 2px;
+}
+
+.result-val {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.result-val.green { color: darkgreen; }
+.result-val.red   { color: firebrick; }
+
+/* ===== BADGES ===== */
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-bronze { background: lightsalmon;  color: saddlebrown; }
+.badge-silver { background: lightgray;    color: dimgray;     }
+.badge-gold   { background: moccasin;     color: saddlebrown; }
+
+/* ===== RANKING ===== */
+.rank-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid lightgreen;
+}
+
+.rank-row:last-child {
+  border-bottom: none;
+}
+
+.rank-num {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: honeydew;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  flex-shrink: 0;
+  color: dimgray;
+}
+
+.rank-num.first  { background: moccasin;    color: saddlebrown; }
+.rank-num.second { background: lightgray;   color: dimgray;     }
+.rank-num.third  { background: lightsalmon; color: saddlebrown; }
+
+.rank-name {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.rank-veh {
+  font-size: 12px;
+  color: gray;
+}
+
+.progress-bar {
+  height: 6px;
+  background: lightgreen;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 5px;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 10px;
+  background: olivedrab;
+  transition: width 0.4s ease;
+}
+
+.esg-score {
+  font-size: 20px;
+  font-weight: 700;
+  color: darkgreen;
+}
+
+/* ===== MEDALS ===== */
+.medal-card {
+  background: white;
+  border: 1px solid darkseagreen;
+  border-radius: 12px;
+  padding: 1.25rem;
+  text-align: center;
+}
+
+.medal-icon {
+  font-size: 34px;
+  margin-bottom: 8px;
+}
+
+.medal-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.medal-desc {
+  font-size: 13px;
+  color: gray;
+}
+
+.destaque-card {
+  text-align: center;
+  padding: 1.5rem;
+}
+
+/* ===== HISTÓRICO ===== */
+.export-btn-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+.hist-row {
+  padding: 10px 0;
+  border-bottom: 1px solid lightgreen;
+  font-size: 13px;
+}
+
+.hist-row:last-child {
+  border-bottom: none;
+}
+
+.hist-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.hist-details {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  color: dimgray;
+}
+
+/* ===== GRÁFICO ===== */
+.chart-wrap {
+  position: relative;
+  width: 100%;
+  height: 280px;
+}
+
+.chart-legend {
+  display: flex;
+  gap: 16px;
+  font-size: 12px;
+  color: gray;
+  margin-bottom: 8px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-color {
+  width: 14px;
+  height: 3px;
+  background: darkgray;
+  display: inline-block;
+  border-radius: 2px;
+}
+
+.legend-color:not(.dashed) {
+  background: olivedrab;
+}
+
+.legend-color.dashed {
+  background: repeating-linear-gradient(
+    to right,
+    darkgray 0, darkgray 4px,
+    transparent 4px, transparent 8px
+  );
+}
+
+/* ===== CONQUISTA CARD ===== */
+.conquista-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.conquista-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: honeydew;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}

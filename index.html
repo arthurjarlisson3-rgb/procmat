@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PROCMAT</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+</head>
+<body>
+
+  <div class="eco-wrap">
+
+    <div class="header">
+      <img src="LOGOPROCMAT.jpg" alt="Logo PROCMAT" class="logo-img" />
+      <div>
+        <div class="app-title">PROCMAT</div>
+        <div class="app-sub">Programa de Conscientização do Meio Ambiente no Transporte</div>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('frota')">🚌 Frota</button>
+      <button class="tab" onclick="switchTab('registro')">✏️ Registro</button>
+      <button class="tab" onclick="switchTab('historico')">📋 Histórico</button>
+      <button class="tab" onclick="switchTab('grafico')">📈 Gráfico</button>
+      <button class="tab" onclick="switchTab('motoristas')">👤 Motoristas</button>
+      <button class="tab" onclick="switchTab('ranking')">🏆 Ranking</button>
+      <button class="tab" onclick="switchTab('medalhas')">⭐ Medalhas</button>
+    </div>
+
+    <!-- FROTA -->
+    <div id="tab-frota" class="section active">
+      <h2 class="section-head">Cadastro de veículos</h2>
+      <div class="card">
+        <div class="grid2">
+          <div class="form-row"><label>Placa</label><input id="v-placa" placeholder="ABC-1234" maxlength="8" /></div>
+          <div class="form-row"><label>Modelo</label><input id="v-modelo" placeholder="Ônibus Volvo B270F" /></div>
+          <div class="form-row"><label>Ano</label><input id="v-ano" type="number" placeholder="2021" min="2000" max="2030" /></div>
+          <div class="form-row">
+            <label>Combustível</label>
+            <select id="v-comb">
+              <option>Diesel S10</option>
+              <option>Diesel S500</option>
+              <option>Etanol</option>
+              <option>Gasolina</option>
+              <option>GNV</option>
+            </select>
+          </div>
+          <div class="form-row"><label>Consumo médio esperado (km/L)</label><input id="v-consumo" type="number" step="0.1" placeholder="2.8" /></div>
+        </div>
+        <button class="btn btn-primary full-width" onclick="addVehicle()">+ Cadastrar veículo</button>
+      </div>
+      <div id="frota-list"></div>
+    </div>
+
+    <!-- REGISTRO -->
+    <div id="tab-registro" class="section">
+      <h2 class="section-head">Registro diário de jornada</h2>
+      <div class="card">
+        <div class="grid2">
+          <div class="form-row"><label>Veículo</label><select id="r-veiculo"><option value="">Selecione um veículo cadastrado</option></select></div>
+          <div class="form-row">
+            <label>Motorista</label>
+            <input id="r-motorista" list="lista-motoristas" placeholder="Nome do motorista" />
+            <datalist id="lista-motoristas"></datalist>
+          </div>
+        </div>
+        <div class="grid2">
+          <div class="form-row"><label>KM inicial</label><input id="r-km-ini" type="number" placeholder="102500" /></div>
+          <div class="form-row"><label>KM final</label><input id="r-km-fim" type="number" placeholder="102760" /></div>
+          <div class="form-row"><label>Litros abastecidos</label><input id="r-litros" type="number" step="0.1" placeholder="85" /></div>
+          <div class="form-row">
+            <label>Ocorrências</label>
+            <select id="r-ocorr">
+              <option value="0">Nenhuma</option>
+              <option value="1">1 – Frenagem brusca</option>
+              <option value="2">2 – Aceleração agressiva</option>
+              <option value="3">3+ – Múltiplas ocorrências</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <label>Treinamento realizado hoje?</label>
+          <select id="r-trein">
+            <option value="0">Não</option>
+            <option value="5">Sim (+5 pontos ESG)</option>
+          </select>
+        </div>
+        <button class="btn btn-primary full-width" onclick="calcRegistro()">🧮 Calcular e registrar</button>
+      </div>
+      <div id="resultado-box"></div>
+    </div>
+
+    <!-- HISTÓRICO -->
+    <div id="tab-historico" class="section">
+      <h2 class="section-head">Histórico</h2>
+      <div class="card">
+        <div class="grid2">
+          <div class="form-row">
+            <label>Filtrar por veículo</label>
+            <select id="h-filtro-veiculo" onchange="renderHistorico()"><option value="">Todos os veículos</option></select>
+          </div>
+          <div class="form-row">
+            <label>Filtrar por motorista</label>
+            <select id="h-filtro-motorista" onchange="renderHistorico()"><option value="">Todos os motoristas</option></select>
+          </div>
+        </div>
+      </div>
+      <div class="export-btn-row">
+        <button class="btn" onclick="exportCSV()">📄 Exportar CSV</button>
+        <button class="btn btn-primary" onclick="exportRelatorio()">⬇️ Exportar Relatório TXT</button>
+        <button class="btn btn-danger" onclick="limparDados()">🗑️ Limpar dados</button>
+      </div>
+      <div id="historico-list"></div>
+    </div>
+
+    <!-- GRÁFICO -->
+    <div id="tab-grafico" class="section">
+      <h2 class="section-head">Evolução do consumo</h2>
+      <div class="card">
+        <label>Veículo</label>
+        <select id="g-veiculo" onchange="renderGrafico()"><option value="">Todos (média geral)</option></select>
+      </div>
+      <div id="chart-legend" class="chart-legend">
+        <span class="legend-item"><span class="legend-color"></span>Consumo real</span>
+        <span class="legend-item"><span class="legend-color dashed"></span>Meta</span>
+      </div>
+      <div class="card">
+        <div class="chart-wrap">
+          <canvas id="chartConsumo" role="img" aria-label="Gráfico de evolução do consumo km/L por jornada">Sem dados disponíveis.</canvas>
+        </div>
+      </div>
+      <div class="grid3" style="margin-top:12px">
+        <div class="result-box"><div class="result-label">Melhor jornada</div><div class="result-val green" id="stat-melhor">—</div></div>
+        <div class="result-box"><div class="result-label">Média geral</div><div class="result-val" id="stat-media">—</div></div>
+        <div class="result-box"><div class="result-label">Combustível total consumido</div><div class="result-val" id="stat-litros">—</div></div>
+      </div>
+      <div class="grid2" style="margin-top:12px">
+        <div class="result-box"><div class="result-label">CO₂ total emitido</div><div class="result-val red" id="stat-co2-emitido">—</div></div>
+      </div>
+    </div>
+
+    <!-- MOTORISTAS -->
+    <div id="tab-motoristas" class="section">
+      <h2 class="section-head">Motoristas</h2>
+      <div class="card">
+        <label>Filtrar por motorista</label>
+        <select id="m-filtro" onchange="renderMotoristas()"><option value="">Todos os motoristas</option></select>
+      </div>
+      <div id="motoristas-list"></div>
+    </div>
+
+    <!-- RANKING -->
+    <div id="tab-ranking" class="section">
+      <h2 class="section-head">Ranking ESG do mês</h2>
+      <div class="card" id="ranking-list"></div>
+    </div>
+
+    <!-- MEDALHAS -->
+    <div id="tab-medalhas" class="section">
+      <h2 class="section-head">Gamificação e conquistas</h2>
+      <div class="grid3">
+        <div class="medal-card"><div class="medal-icon">🥉</div><div class="medal-title">Bronze</div><div class="medal-desc">5% de economia em combustível</div></div>
+        <div class="medal-card"><div class="medal-icon">🥈</div><div class="medal-title">Prata</div><div class="medal-desc">10% de economia em combustível</div></div>
+        <div class="medal-card"><div class="medal-icon">🥇</div><div class="medal-title">Ouro</div><div class="medal-desc">15% de economia em combustível</div></div>
+      </div>
+      <h3 class="section-sub">Motorista ESG do Mês</h3>
+      <div id="destaque-esg" class="card destaque-card"><p class="muted center">Registre jornadas para apurar o destaque do mês.</p></div>
+      <h3 class="section-sub">Conquistas dos motoristas</h3>
+      <div id="conquistas-list"></div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
